@@ -922,6 +922,9 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
     return markerView.getInfoContents();
   }
 
+  private float pointDown = 0;
+  private float pointUp = 0;
+
   @Override
   public boolean dispatchTouchEvent(MotionEvent ev) {
     gestureDetector.onTouchEvent(ev);
@@ -932,10 +935,23 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
       case (MotionEvent.ACTION_DOWN):
         this.getParent().requestDisallowInterceptTouchEvent(
             map != null && map.getUiSettings().isScrollGesturesEnabled());
+        pointDown = ev.getX();
+        if(handlePanDrag) {
+          onPanDrag(ev);
+        }
         break;
       case (MotionEvent.ACTION_UP):
         // Clear this regardless, since isScrollGesturesEnabled() may have been updated
         this.getParent().requestDisallowInterceptTouchEvent(false);
+        pointUp = ev.getX();
+        if(handlePanDrag && !(pointDown == pointUp)) {
+          onPanDrag(ev);
+        }
+        break;
+      case (MotionEvent.ACTION_MOVE):
+        if(handlePanDrag) {
+          onPanDrag(ev);
+        }
         break;
     }
     super.dispatchTouchEvent(ev);
