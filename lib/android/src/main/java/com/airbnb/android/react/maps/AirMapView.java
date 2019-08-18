@@ -165,9 +165,9 @@ public class AirMapView extends MapView implements GoogleMap.InfoWindowAdapter,
           @Override
           public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
               float distanceY) {
-            if (handlePanDrag) {
-              onPanDrag(e2);
-            }
+//             if (handlePanDrag) {
+//               onPanDrag(e2);
+//             }
             return false;
           }
         });
